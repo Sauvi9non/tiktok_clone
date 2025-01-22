@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/features/authentication/sign_up_screen.dart';
+import 'package:tiktok_clone/features/authentication/widgets/username_screen.dart';
 
 import '../../constants/sizes.dart';
 import 'widgets/auth_button.dart';
@@ -9,7 +10,7 @@ import 'widgets/auth_button.dart';
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
-  void onSignUpTap(BuildContext context) {
+  void _onSignUpTap(BuildContext context) {
     Navigator.of(context).pop(
       MaterialPageRoute(
         builder: (context) => SignUpScreen(),
@@ -21,7 +22,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
-        color: Colors.grey.shade100,
+        color: Colors.grey.shade50,
         elevation: 2,
         child: Padding(
           padding: EdgeInsets.symmetric(
@@ -33,7 +34,7 @@ class LoginScreen extends StatelessWidget {
               Text("Don't have an account?"),
               Gaps.h5,
               GestureDetector(
-                onTap: () => onSignUpTap(context),
+                onTap: () => _onSignUpTap(context),
                 child: Text(
                   "Sign Up",
                   style: TextStyle(
@@ -69,7 +70,9 @@ class LoginScreen extends StatelessWidget {
               ),
               Gaps.v10,
               AuthButton(
-                  text: "Continue with Apple", btnIcon: FontAwesomeIcons.apple),
+                text: "Continue with Apple",
+                btnIcon: FontAwesomeIcons.apple,
+              ),
             ],
           ),
         ),

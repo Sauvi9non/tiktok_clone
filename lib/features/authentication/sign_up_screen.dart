@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/features/authentication/widgets/auth_button.dart';
+import 'package:tiktok_clone/features/authentication/widgets/username_screen.dart';
 
 import '../../constants/sizes.dart';
 import 'login_screen.dart';
@@ -9,10 +10,10 @@ import 'login_screen.dart';
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
 
-  void onLoginTap(BuildContext context) {
+  void _onNavigatorTap(BuildContext context, Widget widget) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const LoginScreen(),
+        builder: (context) => widget,
       ),
     );
   }
@@ -21,7 +22,7 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
-        color: Colors.grey.shade100,
+        color: Colors.grey.shade50,
         elevation: 2,
         child: Padding(
           padding: EdgeInsets.symmetric(
@@ -35,7 +36,7 @@ class SignUpScreen extends StatelessWidget {
               ),
               Gaps.h5,
               GestureDetector(
-                onTap: () => onLoginTap(context),
+                onTap: () => _onNavigatorTap(context, LoginScreen()),
                 child: Text(
                   "Log in",
                   style: TextStyle(
@@ -51,6 +52,7 @@ class SignUpScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: Sizes.size40),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Gaps.v80,
               Text("Sign Up for TikTok",
@@ -71,7 +73,9 @@ class SignUpScreen extends StatelessWidget {
               ),
               Gaps.v10,
               AuthButton(
-                  text: "Continue with Apple", btnIcon: FontAwesomeIcons.apple),
+                text: "Continue with Apple",
+                btnIcon: FontAwesomeIcons.apple,
+              ),
             ],
           ),
         ),

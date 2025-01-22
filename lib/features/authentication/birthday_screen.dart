@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
@@ -12,28 +13,20 @@ class BirthdayScreen extends StatefulWidget {
 }
 
 class _BirthdayScreen extends State<BirthdayScreen> {
-  final TextEditingController _BirthdayController = TextEditingController();
-  String _birthday = ""; //
-  bool _obscureText = true;
+  final TextEditingController _birthdayController = TextEditingController();
+  DateTime initialDate = DateTime.now();
+
+  int initialYear =
+      int.parse(DateTime.now().toString().split(" ").first.substring(0, 4));
+  int initialMonth =
+      int.parse(DateTime.now().toString().split(" ").first.substring(5, 7));
+  int initialDay =
+      int.parse(DateTime.now().toString().split(" ").first.substring(8, 10));
 
   @override
   void initState() {
     super.initState();
-    _BirthdayController.addListener(() {
-      setState(() {
-        _birthday = _BirthdayController.text;
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    _BirthdayController.dispose();
-    super.dispose(); //마지막에 아무래도 얘가 부모그거니까...
-  }
-
-  bool _isBirthdayValid() {
-    return _birthday.isNotEmpty && _birthday.length >= 8;
+    _setTextFieldDate(initialDate);
   }
 
   void _onScaffoldTap() {
@@ -42,7 +35,7 @@ class _BirthdayScreen extends State<BirthdayScreen> {
   }
 
   void _onSubmit() {
-    if (_isBirthdayValid() || _birthday.isEmpty) return;
+    // if () return;
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -51,13 +44,9 @@ class _BirthdayScreen extends State<BirthdayScreen> {
     );
   }
 
-  void _onClearTap() {
-    _BirthdayController.clear();
-  }
-
-  void _toggleObscureText() {
-    _obscureText = !_obscureText;
-    setState(() {});
+  void _setTextFieldDate(DateTime date) {
+    final textDate = date.toString().split(" ").first;
+    _birthdayController.value = TextEditingValue(text: textDate);
   }
 
   @override
@@ -78,85 +67,54 @@ class _BirthdayScreen extends State<BirthdayScreen> {
           ),
         ),
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Sizes.size36),
+          padding: EdgeInsets.symmetric(horizontal: Sizes.size36),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Gaps.v40,
               Text(
-                "What's your Birthday?",
+                "When's your Birthday?",
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: Sizes.size24,
                   fontWeight: FontWeight.w700,
                 ),
               ),
+              Gaps.v8,
+              Text(
+                "Your birthday won't be shown publicly",
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontSize: Sizes.size16,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
               Gaps.v16,
               TextField(
-                obscureText: _obscureText,
-                controller: _BirthdayController,
+                controller: _birthdayController,
+                enabled: false,
                 autocorrect: false,
                 onEditingComplete: _onSubmit,
-                decoration: InputDecoration(
-                    suffix: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        GestureDetector(
-                          onTap: () => _onClearTap(),
-                          child: FaIcon(
-                            FontAwesomeIcons.solidCircleXmark,
-                            color: Colors.grey.shade400,
-                            size: Sizes.size20,
-                          ),
-                        ),
-                        Gaps.h16,
-                        GestureDetector(
-                          onTap: () => _toggleObscureText(),
-                          child: FaIcon(
-                            _obscureText
-                                ? FontAwesomeIcons.eye
-                                : FontAwesomeIcons.eyeSlash,
-                            color: Colors.grey.shade400,
-                            size: Sizes.size20,
-                          ),
-                        )
-                      ],
-                    ),
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.grey.shade400,
-                      ),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                      color: Colors.grey.shade400,
-                    ))),
-                cursorColor: Theme.of(context).primaryColor, //커서 색깔
               ),
               Gaps.v10,
-              Text("Your Birthday must have:",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  )),
-              Gaps.v10,
-              Row(
-                children: [
-                  FaIcon(
-                    FontAwesomeIcons.circleCheck,
-                    size: Sizes.size20,
-                    color: _isBirthdayValid() ? Colors.green : Colors.grey,
-                  ),
-                  Gaps.h5,
-                  Text(" 8 to 20 characters"),
-                ],
-              ),
-              Gaps.v28,
               GestureDetector(
-                onTap: _onSubmit,
-                child: FormButton(
-                    disabled: _birthday.isEmpty || _isBirthdayValid()),
-              ), //이거 색만 바뀌는거 아닌가
+                  onTap: _onSubmit,
+                  child: FormButton(
+                    disabled: true,
+                  )), //이거 색만 바뀌는거 아닌가
             ],
+          ),
+        ),
+        bottomNavigationBar: BottomAppBar(
+          color: Colors.white,
+          height: 300,
+          child: CupertinoDatePicker(
+            maximumDate: initialDate,
+            initialDateTime:
+                DateTime(initialYear - 12, initialMonth, initialDay),
+            mode: CupertinoDatePickerMode.date,
+            backgroundColor: Colors.white,
+            onDateTimeChanged: _setTextFieldDate,
           ),
         ),
       ),

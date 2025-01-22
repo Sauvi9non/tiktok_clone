@@ -2,50 +2,47 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import '../../../constants/sizes.dart';
-import 'birthday_screen.dart';
 import 'widgets/form_button.dart';
 
-class PasswordScreen extends StatefulWidget {
-  const PasswordScreen({super.key});
+class BirthdayScreen extends StatefulWidget {
+  const BirthdayScreen({super.key});
 
   @override
-  State<PasswordScreen> createState() => _PasswordScreen();
+  State<BirthdayScreen> createState() => _BirthdayScreen();
 }
 
-class _PasswordScreen extends State<PasswordScreen> {
-  final TextEditingController _passwordController = TextEditingController();
-  String _password = ""; //
+class _BirthdayScreen extends State<BirthdayScreen> {
+  final TextEditingController _BirthdayController = TextEditingController();
+  String _birthday = ""; //
   bool _obscureText = true;
 
   @override
   void initState() {
     super.initState();
-    _passwordController.addListener(() {
+    _BirthdayController.addListener(() {
       setState(() {
-        _password = _passwordController.text;
+        _birthday = _BirthdayController.text;
       });
     });
   }
 
   @override
   void dispose() {
-    _passwordController.dispose();
+    _BirthdayController.dispose();
     super.dispose(); //마지막에 아무래도 얘가 부모그거니까...
   }
 
-  bool _isPasswordValid() {
-    return _password.isNotEmpty &&
-        _password.length >= 8 &&
-        _password.length <= 20;
+  bool _isBirthdayValid() {
+    return _birthday.isNotEmpty && _birthday.length >= 8;
   }
 
   void _onScaffoldTap() {
-    //유저가 스캐폴드의 아무곳이나 누르면 password screen이 focus를 잃는다
+    //유저가 스캐폴드의 아무곳이나 누르면 Birthday screen이 focus를 잃는다
     FocusScope.of(context).unfocus();
   }
 
   void _onSubmit() {
-    if (!_isPasswordValid()) return;
+    if (_isBirthdayValid() || _birthday.isEmpty) return;
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -55,7 +52,7 @@ class _PasswordScreen extends State<PasswordScreen> {
   }
 
   void _onClearTap() {
-    _passwordController.clear();
+    _BirthdayController.clear();
   }
 
   void _toggleObscureText() {
@@ -87,7 +84,7 @@ class _PasswordScreen extends State<PasswordScreen> {
             children: [
               Gaps.v40,
               Text(
-                "What's your password?",
+                "What's your Birthday?",
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: Sizes.size24,
@@ -97,7 +94,7 @@ class _PasswordScreen extends State<PasswordScreen> {
               Gaps.v16,
               TextField(
                 obscureText: _obscureText,
-                controller: _passwordController,
+                controller: _BirthdayController,
                 autocorrect: false,
                 onEditingComplete: _onSubmit,
                 decoration: InputDecoration(
@@ -137,7 +134,7 @@ class _PasswordScreen extends State<PasswordScreen> {
                 cursorColor: Theme.of(context).primaryColor, //커서 색깔
               ),
               Gaps.v10,
-              Text("Your password must have:",
+              Text("Your Birthday must have:",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   )),
@@ -147,7 +144,7 @@ class _PasswordScreen extends State<PasswordScreen> {
                   FaIcon(
                     FontAwesomeIcons.circleCheck,
                     size: Sizes.size20,
-                    color: _isPasswordValid() ? Colors.green : Colors.grey,
+                    color: _isBirthdayValid() ? Colors.green : Colors.grey,
                   ),
                   Gaps.h5,
                   Text(" 8 to 20 characters"),
@@ -157,7 +154,7 @@ class _PasswordScreen extends State<PasswordScreen> {
               GestureDetector(
                 onTap: _onSubmit,
                 child: FormButton(
-                    disabled: _password.isEmpty || !_isPasswordValid()),
+                    disabled: _birthday.isEmpty || _isBirthdayValid()),
               ), //이거 색만 바뀌는거 아닌가
             ],
           ),

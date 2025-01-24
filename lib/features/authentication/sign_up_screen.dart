@@ -67,9 +67,12 @@ class SignUpScreen extends StatelessWidget {
                 style: TextStyle(fontSize: Sizes.size16, color: Colors.black45),
               ),
               Gaps.v40,
-              AuthButton(
-                text: "Use email & password",
-                btnIcon: FontAwesomeIcons.solidUser,
+              GestureDetector(
+                onTap: () => _onNavigatorTap(context, UsernameScreen()),
+                child: AuthButton(
+                  text: "Use email & password",
+                  btnIcon: FontAwesomeIcons.solidUser,
+                ),
               ),
               Gaps.v10,
               AuthButton(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
+import 'package:tiktok_clone/features/authentication/login_form_screen.dart';
 import 'package:tiktok_clone/features/authentication/sign_up_screen.dart';
-import 'package:tiktok_clone/features/authentication/widgets/username_screen.dart';
 
 import '../../constants/sizes.dart';
 import 'widgets/auth_button.dart';
@@ -16,6 +16,11 @@ class LoginScreen extends StatelessWidget {
         builder: (context) => SignUpScreen(),
       ),
     );
+  }
+
+  void _onEmailLoginTap(BuildContext context) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => LoginFormScreen()));
   }
 
   @override
@@ -64,14 +69,20 @@ class LoginScreen extends StatelessWidget {
                   style:
                       TextStyle(fontSize: Sizes.size16, color: Colors.black45)),
               Gaps.v40,
-              AuthButton(
-                text: "Use email & password",
-                btnIcon: FontAwesomeIcons.solidUser,
+              GestureDetector(
+                onTap: () => _onEmailLoginTap(
+                    context), //stateless Widget이니까 context 전달, 왜냐면 stateless가 이 메서드는 context에 접근 못해서
+                child: AuthButton(
+                  text: "Use email & password",
+                  btnIcon: FontAwesomeIcons.solidUser,
+                ),
               ),
               Gaps.v10,
-              AuthButton(
-                text: "Continue with Apple",
-                btnIcon: FontAwesomeIcons.apple,
+              GestureDetector(
+                child: AuthButton(
+                  text: "Continue with Apple",
+                  btnIcon: FontAwesomeIcons.apple,
+                ),
               ),
             ],
           ),

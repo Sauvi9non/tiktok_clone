@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tiktok_clone/features/authentication/widgets/form_button.dart';
+import 'package:tiktok_clone/features/onboadring/interests_screen.dart';
 
 import '../../constants/gaps.dart';
 import '../../constants/sizes.dart';
@@ -25,6 +26,11 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
         //save
         _formKey.currentState!
             .save(); //save는 모든 텍스트 입력에 onSaved 콜백 함수를 실행하게 된다.
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => const InterestsScreen(),
+          ),
+        );
       }
     }
   }
@@ -51,7 +57,10 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
                   hintText: 'Email',
                 ),
                 validator: (value) {
-                  return "i don't like your email";
+                  if (value != null && value.isEmpty) {
+                    return "Please write your email";
+                  }
+                  return null;
                 },
                 onSaved: (newValue) => {
                   if (newValue != null) {formData['email'] = newValue}
@@ -63,7 +72,10 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
                   hintText: 'Password',
                 ),
                 validator: (value) {
-                  return "wrong password";
+                  if (value != null && value.isEmpty) {
+                    return "please write your password";
+                  }
+                  return null;
                 },
                 onSaved: (newValue) => {
                   if (newValue != null) {formData['password'] = newValue}

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tiktok_clone/features/onboadring/tutorial_screen.dart';
 import '../../constants/gaps.dart';
 import '../../constants/sizes.dart';
 import '../onboadring/interests.dart';
@@ -30,6 +31,18 @@ class _InterestsScreenState extends State<InterestsScreen> {
     }
   }
 
+  void _onTapPressed() {
+    // Navigator.of(context).push(
+    //   MaterialPageRoute(
+    //     builder: (context) => TutorialScreen(),
+    //   ),
+    // );
+    Navigator.push(
+        //여기는 stateful이라서 .of(context)로 context를 받아오지 않아도 ok
+        context,
+        MaterialPageRoute(builder: (context) => TutorialScreen()));
+  }
+
   @override
   void initState() {
     super.initState();
@@ -51,7 +64,10 @@ class _InterestsScreenState extends State<InterestsScreen> {
           duration: Duration(milliseconds: 300),
           child: Text(
             "Choose your interests",
-            style: TextStyle(),
+            style: TextStyle(
+              fontSize: Sizes.size40,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
@@ -105,17 +121,20 @@ class _InterestsScreenState extends State<InterestsScreen> {
         height: 100,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: Sizes.size10),
-          child: Container(
-            padding: EdgeInsets.symmetric(vertical: Sizes.size12),
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
+          child: GestureDetector(
+            onTap: _onTapPressed,
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: Sizes.size12),
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+              ),
+              child: Text("Next",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: Sizes.size20,
+                  )),
             ),
-            child: Text("Next",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: Sizes.size20,
-                )),
           ),
         ),
       ),

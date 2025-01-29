@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/gaps.dart';
@@ -70,6 +71,28 @@ class _TutorialScreenState extends State<TutorialScreen> {
                 milliseconds: 300,
               ),
             ),
+          ),
+        ),
+        bottomNavigationBar: BottomAppBar(
+          color: Colors.white,
+          child: AnimatedOpacity(
+            opacity: _showingPage == Page.first ? 0 : 1,
+            duration: Duration(
+              milliseconds: 300,
+            ),
+            child: CupertinoButton(
+                padding: EdgeInsets.symmetric(
+                  vertical: Sizes.size12,
+                  horizontal: Sizes.size24,
+                ),
+                color: Theme.of(context).primaryColor,
+                child: Text(
+                  "Enter the app!",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                onPressed: () {}),
           ),
         ),
       ),

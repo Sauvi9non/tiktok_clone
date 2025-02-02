@@ -35,12 +35,11 @@ class _BirthdayScreen extends State<BirthdayScreen> {
   }
 
   void _onNextTap() {
-    Navigator.of(context).push(
-      //왜 여기서는 매개변수로 BuildContext context를 안받아도 되나?
+    Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(
-        //왜냐면 StatefulWidget안에 있다면 어디서든 context를 사용할 수 있기 때문
-        builder: (context) => InterestsScreen(),
+        builder: (context) => const InterestsScreen(),
       ),
+      (route) => false,
     );
   }
 

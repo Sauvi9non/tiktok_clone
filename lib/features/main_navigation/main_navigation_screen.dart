@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/features/main_navigation/widgets/nav_tab.dart';
+import 'package:tiktok_clone/features/main_navigation/widgets/post_video_button.dart';
 import 'package:tiktok_clone/features/main_navigation/widgets/stf_screen.dart';
+
+import '../../constants/sizes.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key});
@@ -17,6 +21,21 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  void _onPostVideoButtonTap() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => Scaffold(
+          appBar: AppBar(
+            title: Text(
+              "Record Video",
+            ),
+          ),
+        ),
+        fullscreenDialog: true,
+      ),
+    );
   }
 
   @override
@@ -46,6 +65,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         color: Colors.black,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             NavTab(
               text: "home",
@@ -61,6 +81,12 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               isSelected: _selectedIndex == 1,
               onTap: () => _onTap(1),
             ),
+            Gaps.h24,
+            GestureDetector(
+              onTap: _onPostVideoButtonTap,
+              child: PostVideoButton(),
+            ),
+            Gaps.h24,
             NavTab(
               text: "inbox",
               icon: FontAwesomeIcons.message,

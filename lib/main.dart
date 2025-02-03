@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tiktok_clone/features/main_navigation/main_navigation_screen.dart';
-import 'package:tiktok_clone/features/onboadring/interests_screen.dart';
-
 import 'constants/sizes.dart';
-import 'features/authentication/sign_up_screen.dart';
 
 void main() {
   runApp(const TikTokApp());

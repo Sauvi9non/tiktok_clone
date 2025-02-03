@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/features/main_navigation/widgets/nav_tab.dart';
+import 'package:tiktok_clone/features/main_navigation/widgets/stf_screen.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key});
@@ -12,24 +13,6 @@ class MainNavigationScreen extends StatefulWidget {
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
   int _selectedIndex = 0;
 
-  final screens = [
-    Center(
-      child: Text('home'),
-    ),
-    Center(
-      child: Text('discover'),
-    ),
-    Center(
-      child: Container(), //post video 버튼이 될 것
-    ),
-    Center(
-      child: Text('inbox'),
-    ),
-    Center(
-      child: Text('profile'),
-    )
-  ];
-
   void _onTap(int index) {
     setState(() {
       _selectedIndex = index;
@@ -39,7 +22,26 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: screens.elementAt(_selectedIndex), //screens[_selectedIndex],
+      body: Stack(
+        children: [
+          Offstage(
+            offstage: _selectedIndex != 0,
+            child: StatefulNavition(),
+          ),
+          Offstage(
+            offstage: _selectedIndex != 1,
+            child: StatefulNavition(),
+          ),
+          Offstage(
+            offstage: _selectedIndex != 3,
+            child: StatefulNavition(),
+          ),
+          Offstage(
+            offstage: _selectedIndex != 4,
+            child: StatefulNavition(),
+          ),
+        ],
+      ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.black,
         child: Row(

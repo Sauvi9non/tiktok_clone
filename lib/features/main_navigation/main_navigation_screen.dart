@@ -17,13 +17,16 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
       child: Text('home'),
     ),
     Center(
-      child: Text('search'),
+      child: Text('discover'),
     ),
     Center(
-      child: Text('home'),
+      child: Container(), //post video 버튼이 될 것
     ),
     Center(
-      child: Text('search'),
+      child: Text('inbox'),
+    ),
+    Center(
+      child: Text('profile'),
     )
   ];
 
@@ -36,7 +39,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: screens[_selectedIndex],
+      body: screens.elementAt(_selectedIndex), //screens[_selectedIndex],
       bottomNavigationBar: BottomAppBar(
         color: Colors.black,
         child: Row(
@@ -45,24 +48,28 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
             NavTab(
               text: "home",
               icon: FontAwesomeIcons.house,
+              selectedIcon: FontAwesomeIcons.house,
               isSelected: _selectedIndex == 0,
               onTap: () => _onTap(0),
             ),
             NavTab(
               text: "discover",
-              icon: FontAwesomeIcons.magnifyingGlass,
+              icon: FontAwesomeIcons.compass,
+              selectedIcon: FontAwesomeIcons.solidCompass,
               isSelected: _selectedIndex == 1,
               onTap: () => _onTap(1),
             ),
             NavTab(
               text: "inbox",
-              icon: FontAwesomeIcons.inbox,
+              icon: FontAwesomeIcons.message,
+              selectedIcon: FontAwesomeIcons.solidMessage,
               isSelected: _selectedIndex == 3,
               onTap: () => _onTap(3),
             ),
             NavTab(
               text: "profile",
               icon: FontAwesomeIcons.user,
+              selectedIcon: FontAwesomeIcons.solidUser,
               isSelected: _selectedIndex == 4,
               onTap: () => _onTap(4),
             ),

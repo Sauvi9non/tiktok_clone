@@ -44,7 +44,7 @@ class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
         scrollDirection: Axis.vertical,
         itemCount: _itemCount,
         itemBuilder: (context, index) =>
-            VideoPost(onVideoFinished: _onVideoFinished));
+            VideoPost(onVideoFinished: _onVideoFinished, index: index));
     //StatefulWidget에게 넘겨주는 거지 State에게 가는게 아님
     //그래서 VideoPost에서 property를 만들고, 생성자에도 넣어준다
   }

@@ -15,8 +15,31 @@ final tabs = [
   "Brands",
 ];
 
-class DiscoverScreen extends StatelessWidget {
+class DiscoverScreen extends StatefulWidget {
   const DiscoverScreen({super.key});
+
+  @override
+  State<DiscoverScreen> createState() => _DiscoverScreenState();
+}
+
+class _DiscoverScreenState extends State<DiscoverScreen> {
+  final TextEditingController _textEditingController =
+      TextEditingController(text: "initial text");
+
+  void _onChanged(String value) {
+    print("Search value");
+  }
+
+  void _onSubmitted(String value) {
+    print("Submit $value");
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _textEditingController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +47,11 @@ class DiscoverScreen extends StatelessWidget {
       length: tabs.length,
       child: Scaffold(
         appBar: AppBar(
-          title: CupertinoSearchTextField(),
+          title: CupertinoSearchTextField(
+            controller: _textEditingController,
+            onChanged: _onChanged,
+            onSubmitted: _onSubmitted,
+          ),
           bottom: TabBar(
             tabAlignment: TabAlignment.start,
             splashFactory: NoSplash.splashFactory,

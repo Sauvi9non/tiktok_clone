@@ -68,6 +68,10 @@ class _VideoPostState extends State<VideoPost>
     if (info.visibleFraction == 1 && !_videoPlayerController.value.isPlaying) {
       _videoPlayerController.play();
     }
+    //사용자가 다른 화면으로 간 경우 재생 안함
+    if (info.visibleFraction == 0 && _videoPlayerController.value.isPlaying) {
+      _onTogglePause();
+    }
   }
 
   void _onTogglePause() {

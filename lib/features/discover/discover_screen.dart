@@ -46,13 +46,16 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
     return DefaultTabController(
       length: tabs.length,
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: CupertinoSearchTextField(
+            //TODO: 이거 직접 구현해보기
             controller: _textEditingController,
             onChanged: _onChanged,
             onSubmitted: _onSubmitted,
           ),
           bottom: TabBar(
+            //TODO: 탭바 이동해도 키보드 사라지게
             tabAlignment: TabAlignment.start,
             splashFactory: NoSplash.splashFactory,
             padding: EdgeInsets.symmetric(horizontal: Sizes.size16),
@@ -72,6 +75,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
         ),
         body: TabBarView(children: [
           GridView.builder(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             itemCount: 20,
             padding: EdgeInsets.all(Sizes.size6),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

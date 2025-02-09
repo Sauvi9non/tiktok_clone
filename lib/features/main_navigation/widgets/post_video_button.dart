@@ -4,7 +4,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../constants/sizes.dart';
 
 class PostVideoButton extends StatelessWidget {
-  const PostVideoButton({super.key});
+  final int selectedIndex;
+
+  const PostVideoButton({super.key, required this.selectedIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +50,7 @@ class PostVideoButton extends StatelessWidget {
             horizontal: Sizes.size11,
           ),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: selectedIndex == 0 ? Colors.white : Colors.black,
             borderRadius: BorderRadius.circular(
               Sizes.size6,
             ),
@@ -57,7 +59,7 @@ class PostVideoButton extends StatelessWidget {
           child: Center(
             child: FaIcon(
               FontAwesomeIcons.plus,
-              color: Colors.black,
+              color: selectedIndex == 0 ? Colors.black : Colors.white,
               size: Sizes.size18,
             ),
           ),

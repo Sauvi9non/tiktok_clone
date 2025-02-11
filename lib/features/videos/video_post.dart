@@ -26,7 +26,7 @@ class _VideoPostState extends State<VideoPost>
 
   late final AnimationController _animationController;
 
-  void _onVideoChange() {
+  void _onVideoChanged() {
     if (_videoPlayerController.value.isInitialized) {
       if (_videoPlayerController.value.duration ==
           _videoPlayerController.value.position) {
@@ -65,6 +65,7 @@ class _VideoPostState extends State<VideoPost>
   }
 
   void _onVisibilityChanged(VisibilityInfo info) {
+    if (!mounted) return; //아직 마운트되지 않았다면 사용자들에게 보이지 않는다.
     if (info.visibleFraction == 1 && !_videoPlayerController.value.isPlaying) {
       _videoPlayerController.play();
     }

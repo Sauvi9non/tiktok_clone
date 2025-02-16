@@ -8,7 +8,7 @@ class PersistentTabBar extends SliverPersistentHeaderDelegate {
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        //color: Colors.white,
         border: Border.symmetric(
           horizontal: BorderSide(
             color: Colors.grey.shade200,
@@ -18,9 +18,6 @@ class PersistentTabBar extends SliverPersistentHeaderDelegate {
       ),
       child: TabBar(
         splashFactory: NoSplash.splashFactory,
-        indicatorColor: Colors.black,
-        indicatorSize: TabBarIndicatorSize.label,
-        labelColor: Colors.black,
         labelPadding: EdgeInsets.symmetric(
           vertical: Sizes.size10,
         ),

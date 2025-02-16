@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_clone/utils.dart';
 
 import '../../../constants/sizes.dart';
 
@@ -22,7 +23,9 @@ class AuthButton extends StatelessWidget {
         ),
         decoration: BoxDecoration(
             border: Border.all(
-          color: Colors.grey.withAlpha(100),
+          color: isDarkMode(context)
+              ? Colors.grey.shade800
+              : Colors.grey.withAlpha(100),
           width: Sizes.size1,
         )),
         child: Stack(

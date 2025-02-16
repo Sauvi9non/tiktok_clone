@@ -50,8 +50,8 @@ class _UsernameScreenState extends State<UsernameScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        foregroundColor: Colors.black,
-        backgroundColor: Colors.white,
+        // foregroundColor: Colors.black,
+        // backgroundColor: Colors.white,
         elevation: 0,
         title: Text(
           "Sign up",
@@ -70,16 +70,14 @@ class _UsernameScreenState extends State<UsernameScreen> {
             Text(
               "Create username",
               style: TextStyle(
-                color: Colors.black,
                 fontSize: Sizes.size24,
                 fontWeight: FontWeight.w700,
               ),
             ),
             Gaps.v8,
             Text(
-              "You can always change this laster",
+              "You can always change this later",
               style: TextStyle(
-                color: Colors.black54,
                 fontSize: Sizes.size16,
                 fontWeight: FontWeight.w400,
               ),

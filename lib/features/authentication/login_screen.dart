@@ -27,7 +27,6 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
-        color: Colors.grey.shade50,
         elevation: 2,
         child: Padding(
           padding: EdgeInsets.symmetric(
@@ -57,17 +56,18 @@ class LoginScreen extends StatelessWidget {
           child: Column(
             children: [
               Gaps.v80,
-              Text("Login to for TikTok",
-                  style: TextStyle(
-                    fontSize: Sizes.size24,
-                    fontWeight: FontWeight.w700,
-                  )),
-              Gaps.v20,
               Text(
-                  "Create a profile, follow other accounts, make your own videos, and more.",
+                "Login to for TikTok",
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+              Gaps.v20,
+              Opacity(
+                opacity: 0.7,
+                child: Text(
+                  "Manage your accounts, check notifications, comments on videos, and more.",
                   textAlign: TextAlign.center,
-                  style:
-                      TextStyle(fontSize: Sizes.size16, color: Colors.black45)),
+                ),
+              ),
               Gaps.v40,
               GestureDetector(
                 onTap: () => _onEmailLoginTap(

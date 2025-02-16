@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/features/authentication/widgets/auth_button.dart';
 import 'package:tiktok_clone/features/authentication/widgets/username_screen.dart';
+import 'package:tiktok_clone/utils.dart';
 
 import '../../constants/sizes.dart';
 import 'login_screen.dart';
@@ -22,7 +23,6 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
-        color: Colors.grey.shade50,
         elevation: 2,
         child: Padding(
           padding: EdgeInsets.symmetric(
@@ -64,7 +64,11 @@ class SignUpScreen extends StatelessWidget {
               Text(
                 "Create a profile, follow other accounts, make your own videos, and more.",
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: Sizes.size16, color: Colors.black45),
+                style: TextStyle(
+                  fontSize: Sizes.size16,
+                  color:
+                      isDarkMode(context) ? Colors.grey[300] : Colors.black45,
+                ),
               ),
               Gaps.v40,
               GestureDetector(

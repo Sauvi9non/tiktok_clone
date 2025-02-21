@@ -5,8 +5,15 @@ import 'package:tiktok_clone/features/authentication/password_screen.dart';
 import '../../../constants/sizes.dart';
 import 'form_button.dart';
 
+class EmailScreenArgs {
+  final String username;
+
+  EmailScreenArgs({required this.username});
+}
+
 class EmailScreen extends StatefulWidget {
-  const EmailScreen({super.key});
+  final String username;
+  const EmailScreen({super.key, required this.username});
 
   @override
   State<EmailScreen> createState() => _EmailScreenState();

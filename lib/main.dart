@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:tiktok_clone/features/authentication/sign_up_screen.dart';
 import 'package:tiktok_clone/features/main_navigation/main_navigation_screen.dart';
 import 'constants/sizes.dart';
+import 'router.dart';
 
 void main() {
   runApp(TikTokApp());
@@ -14,7 +15,8 @@ class TikTokApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: router,
       title: "Tiktok Clone",
       themeMode: ThemeMode.system,
       theme: ThemeData(
@@ -73,7 +75,6 @@ class TikTokApp extends StatelessWidget {
           color: Colors.grey.shade900,
         ),
       ),
-      home: MainNavigationScreen(),
     );
   }
 }

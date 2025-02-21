@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/features/authentication/widgets/email_screen.dart';
 
@@ -36,12 +37,9 @@ class _UsernameScreenState extends State<UsernameScreen> {
     if (_username.isEmpty) {
       return;
     } else {
-      Navigator.of(context).push(
-        //왜 여기서는 매개변수로 BuildContext context를 안받아도 되나?
-        MaterialPageRoute(
-          //왜냐면 StatefulWidget안에 있다면 어디서든 context를 사용할 수 있기 때문
-          builder: (context) => const EmailScreen(),
-        ),
+      context.push(
+        "/email",
+        extra: EmailScreenArgs(username: _username),
       );
     }
   }

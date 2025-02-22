@@ -1,11 +1,12 @@
+//import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:tiktok_clone/features/authentication/sign_up_screen.dart';
-import 'package:tiktok_clone/features/main_navigation/main_navigation_screen.dart';
+//import 'package:tiktok_clone/firebase_options.dart';
 import 'constants/sizes.dart';
 import 'router.dart';
 
 void main() {
+  // async {
+  //await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(TikTokApp());
 }
 

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "589318687186",
+    "project_id": "tiktok-by-eunseo",
+    "storage_bucket": "tiktok-by-eunseo.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:589318687186:android:2ad68cf59a9508678ce00b",
+        "android_client_info": {
+          "package_name": "com.example.tiktok_clone"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7jJ_3x6-AYyCUkTDS0aqTClJdBXc_fJw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

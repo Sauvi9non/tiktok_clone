@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/features/authentication/widgets/auth_button.dart';
 import 'package:tiktok_clone/features/authentication/widgets/username_screen.dart';
@@ -9,12 +10,20 @@ import '../../constants/sizes.dart';
 import 'login_screen.dart';
 
 class SignUpScreen extends StatelessWidget {
+  static const routeURL = "/";
+  static const routeName = "signUp";
+
   const SignUpScreen({super.key});
 
-  void _onNavigatorTap(BuildContext context, Widget widget) {
-    Navigator.of(context).push(
+  void _onLoginTap(BuildContext context) {
+    context.pushNamed(LoginScreen.routeName); //GoRouter 사용. URL 바뀜
+  }
+
+  void _onEmailTap(BuildContext context) {
+    Navigator.push(
+      context,
       MaterialPageRoute(
-        builder: (context) => widget,
+        builder: (context) => UsernameScreen(), //Navigator API 사용, URL 안바뀜
       ),
     );
   }
@@ -36,7 +45,7 @@ class SignUpScreen extends StatelessWidget {
               ),
               Gaps.h5,
               GestureDetector(
-                onTap: () => _onNavigatorTap(context, LoginScreen()),
+                onTap: () => _onLoginTap(context),
                 child: Text(
                   "Log in",
                   style: TextStyle(
@@ -71,7 +80,7 @@ class SignUpScreen extends StatelessWidget {
               ),
               Gaps.v40,
               GestureDetector(
-                onTap: () => _onNavigatorTap(context, UsernameScreen()),
+                onTap: () => _onEmailTap(context),
                 child: AuthButton(
                   text: "Use email & password",
                   btnIcon: FontAwesomeIcons.solidUser,

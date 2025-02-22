@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/features/authentication/widgets/form_button.dart';
 import 'package:tiktok_clone/features/onboadring/interests_screen.dart';
 
@@ -26,16 +27,7 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
         //save
         _formKey.currentState!
             .save(); //save는 모든 텍스트 입력에 onSaved 콜백 함수를 실행하게 된다.
-        Navigator.of(context).pushAndRemoveUntil(
-          //push( //이러면 Interests로 이동해도 다시 로그인 폼으로 돌아갈 수도 있다
-          MaterialPageRoute(
-            builder: (context) => const InterestsScreen(),
-          ),
-          (route) {
-            print(route);
-            return false; // true면 어떤 route도 제거 안함, false면 제거
-          },
-        );
+        context.goNamed(InterestsScreen.routeName);
       }
     }
   }

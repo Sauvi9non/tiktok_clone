@@ -1,39 +1,33 @@
 import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/features/authentication/login_screen.dart';
 import 'package:tiktok_clone/features/authentication/sign_up_screen.dart';
-import 'package:tiktok_clone/features/authentication/widgets/email_screen.dart';
-import 'package:tiktok_clone/features/authentication/widgets/username_screen.dart';
-import 'package:tiktok_clone/features/users/user_profile_screen.dart';
+import 'package:tiktok_clone/common/widgets/main_navigation/main_navigation_screen.dart';
+import 'package:tiktok_clone/features/onboadring/interests_screen.dart';
 
 final router = GoRouter(
+  initialLocation: "/home",
   routes: [
     GoRoute(
-      path: "/",
+      name: SignUpScreen.routeName,
+      path: SignUpScreen.routeURL,
       builder: (context, state) => SignUpScreen(),
     ),
     GoRoute(
-      path: "/login",
+      name: LoginScreen.routeName,
+      path: LoginScreen.routeURL,
       builder: (context, state) => LoginScreen(),
     ),
     GoRoute(
-      path: "/username",
-      builder: (context, state) => UsernameScreen(),
+      name: InterestsScreen.routeName,
+      path: InterestsScreen.routeURL,
+      builder: (context, state) => InterestsScreen(),
     ),
     GoRoute(
-      path: "/email",
+      name: MainNavigationScreen.routeName,
+      path: "/:tab(home|discover|inbox|profile)",
       builder: (context, state) {
-        //queryParams
-        final args = state.extra as EmailScreenArgs;
-        return EmailScreen(username: args.username);
+        return MainNavigationScreen(tab: state.params["tab"]!);
       },
-    ),
-    GoRoute(
-      path: "/users/:username",
-      builder: (context, state) {
-        final username = state.params["username"];
-        final tab = state.queryParams["show"];
-        return UserProfileScreen(username: username!, tab: tab!);
-      },
-    ),
+    ), //이 tab은 home discover inbox profile에만 매칭된다.
   ],
 );

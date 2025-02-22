@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../constants/sizes.dart';
+import 'widgets/video_button.dart';
 
 class VideoPost extends StatefulWidget {
   final Function
       onVideoFinished; //react 상태 마냥 이렇게 해야 onVideoFinished를 받을 수 있는건가
   final int index;
-  const VideoPost(
-      {super.key, required this.onVideoFinished, required this.index});
+  const VideoPost({
+    super.key,
+    required this.onVideoFinished,
+    required this.index,
+  });
 
   @override
   State<VideoPost> createState() => _VideoPostState();
@@ -18,13 +23,13 @@ class VideoPost extends StatefulWidget {
 
 class _VideoPostState extends State<VideoPost>
     with SingleTickerProviderStateMixin {
-  final Duration _animatedDuration = Duration(milliseconds: 150);
-  bool _isPaused = false;
-
-  final VideoPlayerController _videoPlayerController =
-      VideoPlayerController.asset("assets/videos/video.mp4");
+  late final VideoPlayerController _videoPlayerController;
 
   late final AnimationController _animationController;
+
+  final Duration _animatedDuration = Duration(milliseconds: 150);
+
+  bool _isPaused = false;
 
   void _onVideoChanged() {
     if (_videoPlayerController.value.isInitialized) {
@@ -37,17 +42,21 @@ class _VideoPostState extends State<VideoPost>
   }
 
   void _initVideoPlayer() async {
+    _videoPlayerController =
+        VideoPlayerController.asset("assets/videos/zelda.mp4");
     // listener 추가가능
     await _videoPlayerController.setVolume(0); //웹에서
-    _videoPlayerController.initialize(); //초기화
+    await _videoPlayerController.initialize(); //초기화
+    await _videoPlayerController.setLooping(true);
+    _videoPlayerController.addListener(_onVideoChanged);
     setState(() {});
-    _videoPlayerController.addListener(() {});
   }
 
   @override
   void initState() {
     super.initState();
     _initVideoPlayer();
+
     _animationController = AnimationController(
       vsync: this,
       lowerBound:
@@ -94,10 +103,14 @@ class _VideoPostState extends State<VideoPost>
       key: Key("${widget.index}"),
       onVisibilityChanged: _onVisibilityChanged,
       child: Stack(
+        fit: StackFit.expand,
         children: [
           Positioned.fill(
             child: _videoPlayerController.value.isInitialized
-                ? VideoPlayer(_videoPlayerController)
+                ? Container(
+                    color: Colors.black,
+                    child: VideoPlayer(_videoPlayerController),
+                  )
                 : Container(
                     color: Colors.black,
                   ),
@@ -130,6 +143,63 @@ class _VideoPostState extends State<VideoPost>
                   ),
                 ),
               ),
+            ),
+          ),
+          Positioned(
+            bottom: 20,
+            left: 10,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                Text(
+                  "@니꼬",
+                  style: TextStyle(
+                    fontSize: Sizes.size20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Gaps.v10,
+                Text(
+                  "This is my house in Thailand!!!",
+                  style: TextStyle(
+                    fontSize: Sizes.size16,
+                    color: Colors.white,
+                  ),
+                )
+              ],
+            ),
+          ),
+          Positioned(
+            bottom: 20,
+            right: 10,
+            child: Column(
+              children: const [
+                CircleAvatar(
+                  radius: 25,
+                  backgroundColor: Colors.black,
+                  foregroundColor: Colors.white,
+                  foregroundImage: NetworkImage(
+                    "https://avatars.githubusercontent.com/u/3612017",
+                  ),
+                  child: Text("니꼬"),
+                ),
+                Gaps.v24,
+                VideoButton(
+                  icon: FontAwesomeIcons.solidHeart,
+                  text: "2.9M",
+                ),
+                Gaps.v24,
+                VideoButton(
+                  icon: FontAwesomeIcons.solidComment,
+                  text: "33K",
+                ),
+                Gaps.v24,
+                VideoButton(
+                  icon: FontAwesomeIcons.share,
+                  text: "Share",
+                )
+              ],
             ),
           ),
         ],

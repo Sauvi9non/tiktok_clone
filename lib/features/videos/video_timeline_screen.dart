@@ -27,6 +27,7 @@ class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
   void _onVideoFinished() {
     //를 VideoPost에 넘긴다
     //영상이 끝날 때 사용자를 다음화면으로 넘기는 애니메이션
+    return; //반복재생 막기
     _pageController.nextPage(duration: _scrollDuration, curve: _scrollCurve);
   }
 
@@ -36,15 +37,25 @@ class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
     super.dispose();
   }
 
+  Future<void> _onRefresh() {
+    return Future.delayed(
+      Duration(seconds: 5),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return PageView.builder(
-        controller: _pageController,
-        onPageChanged: _onPageChanged,
-        scrollDirection: Axis.vertical,
-        itemCount: _itemCount,
-        itemBuilder: (context, index) =>
-            VideoPost(onVideoFinished: _onVideoFinished, index: index));
+    return RefreshIndicator(
+      displacement: 40,
+      onRefresh: _onRefresh,
+      child: PageView.builder(
+          controller: _pageController,
+          onPageChanged: _onPageChanged,
+          scrollDirection: Axis.vertical,
+          itemCount: _itemCount,
+          itemBuilder: (context, index) =>
+              VideoPost(onVideoFinished: _onVideoFinished, index: index)),
+    );
     //StatefulWidget에게 넘겨주는 거지 State에게 가는게 아님
     //그래서 VideoPost에서 property를 만들고, 생성자에도 넣어준다
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:tiktok_clone/common/widgets/video_configuration/video_config.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:video_player/video_player.dart';
@@ -31,7 +32,6 @@ class _VideoPostState extends State<VideoPost>
   final Duration _animatedDuration = Duration(milliseconds: 150);
 
   bool _isPaused = false;
-  bool _autoMute = videoConfig.value;
 
   void _onVideoChanged() {
     if (_videoPlayerController.value.isInitialized) {
@@ -67,12 +67,6 @@ class _VideoPostState extends State<VideoPost>
       value: 1.5, //기본적
       duration: _animatedDuration,
     );
-
-    videoConfig.addListener(() {
-      setState(() {
-        _autoMute = videoConfig.value;
-      });
-    });
   }
 
   @override
@@ -131,9 +125,16 @@ class _VideoPostState extends State<VideoPost>
           Positioned.fill(
             child: IgnorePointer(
               child: Center(
-                child: ValueListenableBuilder(
-                  valueListenable: videoConfig,
-                  builder: (context, value, child) => AnimatedOpacity(
+                child: AnimatedBuilder(
+                  animation: _animationController,
+                  builder: (context, child) {
+                    //animationController 값 변할때마다 실행된다.
+                    return Transform.scale(
+                      scale: _animationController.value,
+                      child: child, // AnimatedOpacity 넘겨주기 위함
+                    );
+                  },
+                  child: AnimatedOpacity(
                     opacity: _isPaused ? 1 : 0,
                     duration: _animatedDuration,
                     child: FaIcon(
@@ -151,10 +152,10 @@ class _VideoPostState extends State<VideoPost>
             top: 40,
             child: IconButton(
               onPressed: () {
-                videoConfig.value = !videoConfig.value;
+                context.read<VideoConfig>().toggleMuted();
               },
               icon: FaIcon(
-                _autoMute
+                context.watch<VideoConfig>().isMuted
                     ? FontAwesomeIcons.volumeOff
                     : FontAwesomeIcons.volumeHigh,
                 color: Colors.white,

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:tiktok_clone/common/widgets/video_configuration/video_config.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
+import 'package:tiktok_clone/features/videos/view_modles/playback_config_vm.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
-
 import '../../constants/sizes.dart';
 import 'widgets/video_button.dart';
+
+//코드 챌린지. 음소거 시 설정까지가 아니라 로컬하게 음소거가 될 수 있게
+//그러니까 초기값은 setting screen을 따르되, 음소거가 가능하게
 
 class VideoPost extends StatefulWidget {
   final Function
@@ -67,6 +69,11 @@ class _VideoPostState extends State<VideoPost>
       value: 1.5, //기본적
       duration: _animatedDuration,
     );
+
+    //실제 비디오 크기를 Muted
+    context
+        .read<PlaybackConfigViewModel>()
+        .addListener(_onPlaybackConfigChanged);
   }
 
   @override
@@ -75,10 +82,23 @@ class _VideoPostState extends State<VideoPost>
     super.dispose();
   }
 
+  void _onPlaybackConfigChanged() {
+    final muted = context.read<PlaybackConfigViewModel>().muted;
+
+    if (muted) {
+      _videoPlayerController.setVolume(0);
+    } else {
+      _videoPlayerController.setVolume(1);
+    }
+  }
+
   void _onVisibilityChanged(VisibilityInfo info) {
+    final autoplay = context.read<PlaybackConfigViewModel>().autoplay;
     if (!mounted) return; //아직 마운트되지 않았다면 사용자들에게 보이지 않는다.
     if (info.visibleFraction == 1 && !_videoPlayerController.value.isPlaying) {
-      _videoPlayerController.play();
+      if (autoplay) {
+        _videoPlayerController.play();
+      }
     }
     //사용자가 다른 화면으로 간 경우 재생 안함
     if (info.visibleFraction == 0 && _videoPlayerController.value.isPlaying) {
@@ -152,10 +172,14 @@ class _VideoPostState extends State<VideoPost>
             top: 40,
             child: IconButton(
               onPressed: () {
-                context.read<VideoConfig>().toggleMuted();
+                context.read<PlaybackConfigViewModel>().setMuted(
+                      !context
+                          .read<PlaybackConfigViewModel>()
+                          .muted, //현재 값의 반대로 set해준다
+                    );
               },
               icon: FaIcon(
-                context.watch<VideoConfig>().isMuted
+                context.watch<PlaybackConfigViewModel>().muted
                     ? FontAwesomeIcons.volumeOff
                     : FontAwesomeIcons.volumeHigh,
                 color: Colors.white,

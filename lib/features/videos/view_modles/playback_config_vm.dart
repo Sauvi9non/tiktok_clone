@@ -3,13 +3,14 @@ import 'package:tiktok_clone/features/videos/models/playback_config_model.dart';
 import 'package:tiktok_clone/features/videos/repos/video_playback_config_repo.dart';
 
 class PlaybackConfigViewModel extends ChangeNotifier {
-  final VideoPlaybackConfigRepo _repository;
+  final VideoPlaybackConfigRepo _repository; //레포
   late final PlaybackConfigModel _model = PlaybackConfigModel(
+    //데이터형태
     muted: _repository.isMuted(),
     autoplay: _repository.isAutoplay(),
   );
 
-  PlaybackConfigViewModel(this._repository);
+  PlaybackConfigViewModel(this._repository); //생성자
 
   bool get muted => _model.muted;
   bool get autoplay => _model.autoplay;

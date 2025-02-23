@@ -31,7 +31,7 @@ class _VideoPostState extends State<VideoPost>
   final Duration _animatedDuration = Duration(milliseconds: 150);
 
   bool _isPaused = false;
-  bool _autoMute = videoConfig.autoMute;
+  bool _autoMute = videoConfig.value;
 
   void _onVideoChanged() {
     if (_videoPlayerController.value.isInitialized) {
@@ -70,7 +70,7 @@ class _VideoPostState extends State<VideoPost>
 
     videoConfig.addListener(() {
       setState(() {
-        _autoMute = videoConfig.autoMute;
+        _autoMute = videoConfig.value;
       });
     });
   }
@@ -131,16 +131,9 @@ class _VideoPostState extends State<VideoPost>
           Positioned.fill(
             child: IgnorePointer(
               child: Center(
-                child: AnimatedBuilder(
-                  animation: _animationController,
-                  builder: (context, child) {
-                    //animationController 값 변할때마다 실행된다.
-                    return Transform.scale(
-                      scale: _animationController.value,
-                      child: child, // AnimatedOpacity 넘겨주기 위함
-                    );
-                  },
-                  child: AnimatedOpacity(
+                child: ValueListenableBuilder(
+                  valueListenable: videoConfig,
+                  builder: (context, value, child) => AnimatedOpacity(
                     opacity: _isPaused ? 1 : 0,
                     duration: _animatedDuration,
                     child: FaIcon(
@@ -157,7 +150,9 @@ class _VideoPostState extends State<VideoPost>
             left: 40,
             top: 40,
             child: IconButton(
-              onPressed: videoConfig.toggleAutoMute,
+              onPressed: () {
+                videoConfig.value = !videoConfig.value;
+              },
               icon: FaIcon(
                 _autoMute
                     ? FontAwesomeIcons.volumeOff

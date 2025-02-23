@@ -1,6 +1,6 @@
 //import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tiktok_clone/features/videos/repos/video_playback_config_repo.dart';
 import 'package:tiktok_clone/features/videos/view_modles/playback_config_vm.dart';
@@ -17,11 +17,10 @@ void main() async {
   // async {
   //await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-            //뷰모델 초기화 뷰모델이 뷰랑 모델(데이터)의 중간자니까
-            create: (context) => PlaybackConfigViewModel(repository)),
+    ProviderScope(
+      overrides: [
+        playbackConfigProvider
+            .overrideWith(() => PlaybackConfigViewModel(repository)),
       ],
       child: TikTokApp(),
     ),

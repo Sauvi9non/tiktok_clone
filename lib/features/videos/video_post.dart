@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/features/videos/view_modles/playback_config_vm.dart';
 import 'package:video_player/video_player.dart';
@@ -11,7 +11,7 @@ import 'widgets/video_button.dart';
 //코드 챌린지. 음소거 시 설정까지가 아니라 로컬하게 음소거가 될 수 있게
 //그러니까 초기값은 setting screen을 따르되, 음소거가 가능하게
 
-class VideoPost extends StatefulWidget {
+class VideoPost extends ConsumerStatefulWidget {
   final Function
       onVideoFinished; //react 상태 마냥 이렇게 해야 onVideoFinished를 받을 수 있는건가
   final int index;
@@ -22,10 +22,10 @@ class VideoPost extends StatefulWidget {
   });
 
   @override
-  State<VideoPost> createState() => _VideoPostState();
+  VideoPostState createState() => VideoPostState();
 }
 
-class _VideoPostState extends State<VideoPost>
+class VideoPostState extends ConsumerState<VideoPost>
     with SingleTickerProviderStateMixin {
   late final VideoPlayerController _videoPlayerController;
 
@@ -69,11 +69,6 @@ class _VideoPostState extends State<VideoPost>
       value: 1.5, //기본적
       duration: _animatedDuration,
     );
-
-    //실제 비디오 크기를 Muted
-    context
-        .read<PlaybackConfigViewModel>()
-        .addListener(_onPlaybackConfigChanged);
   }
 
   @override
@@ -83,8 +78,9 @@ class _VideoPostState extends State<VideoPost>
   }
 
   void _onPlaybackConfigChanged() {
-    final muted = context.read<PlaybackConfigViewModel>().muted;
-
+    if (!mounted) return;
+    final muted = ref.read(playbackConfigProvider).muted;
+    ref.read(playbackConfigProvider.notifier).setMuted(!muted); //값 갱신
     if (muted) {
       _videoPlayerController.setVolume(0);
     } else {
@@ -93,10 +89,9 @@ class _VideoPostState extends State<VideoPost>
   }
 
   void _onVisibilityChanged(VisibilityInfo info) {
-    final autoplay = context.read<PlaybackConfigViewModel>().autoplay;
     if (!mounted) return; //아직 마운트되지 않았다면 사용자들에게 보이지 않는다.
     if (info.visibleFraction == 1 && !_videoPlayerController.value.isPlaying) {
-      if (autoplay) {
+      if (ref.read(playbackConfigProvider).autoplay) {
         _videoPlayerController.play();
       }
     }
@@ -171,15 +166,9 @@ class _VideoPostState extends State<VideoPost>
             left: 40,
             top: 40,
             child: IconButton(
-              onPressed: () {
-                context.read<PlaybackConfigViewModel>().setMuted(
-                      !context
-                          .read<PlaybackConfigViewModel>()
-                          .muted, //현재 값의 반대로 set해준다
-                    );
-              },
+              onPressed: _onPlaybackConfigChanged,
               icon: FaIcon(
-                context.watch<PlaybackConfigViewModel>().muted
+                ref.watch(playbackConfigProvider).muted
                     ? FontAwesomeIcons.volumeOff
                     : FontAwesomeIcons.volumeHigh,
                 color: Colors.white,
